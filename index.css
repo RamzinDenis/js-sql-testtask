@@ -29,3 +29,19 @@ body {
 	margin-bottom: 2px;
 	padding: 5px;
 }
+
+.form__btn {
+}
+
+.phone {
+	position: relative;
+	display: block;
+	width: 100%;
+}
+.extra-phone {
+	width: 100%;
+}
+
+.phone__wrapper {
+	display: flex;
+}

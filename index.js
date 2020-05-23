@@ -27,9 +27,8 @@ const createFlagParts = className => {
 	for (let i = 0; i < 20; i++) {
 		const flagRow = document.createElement("div");
 		for (let i = 0; i < 80; i++) {
-			const span = document.createElement("span");
-			span.textContent = "O";
-			flagRow.append(span);
+			const O = document.createTextNode("O");
+			flagRow.append(O);
 		}
 		flagPart.append(flagRow);
 	}
@@ -42,9 +41,17 @@ makeRussianFedaritionFlag();
 const createForm = () => {
 	const form = document.createElement("form");
 	form.classList.add("form");
-	form.append(createInput("name", "ФИО"));
-	form.append(createInput("phone", "Телефон"));
-	form.append(createInput("comments", "Комментарий"));
+
+	const nameInput = createInput("name", "ФИО");
+	const commentInput = createInput("comments", "Комментарий");
+	const phoneInputWrapper = createPhoneFieldWrapper(
+		true,
+		commentInput,
+		"phone",
+		"Телефон"
+	);
+	form.append(nameInput, phoneInputWrapper, commentInput);
+
 	document.body.append(form);
 };
 
@@ -55,4 +62,40 @@ const createInput = (name, placeholder) => {
 	input.placeholder = placeholder;
 	return input;
 };
+
+const createAddPhoneBtn = commentInput => {
+	const btn = document.createElement("button");
+	btn.textContent = "+";
+	btn.className = "form__btn";
+	btn.addEventListener("click", event =>
+		handleFormButtonClick.call(btn, event, commentInput)
+	);
+	return btn;
+};
+
+function handleFormButtonClick(event, commentInput) {
+	event.preventDefault();
+	if (document.querySelectorAll(".extra-phone"))
+		commentInput.before(
+			createPhoneFieldWrapper(true, commentInput, "extra-phone", "Телефон N")
+		);
+	this.remove();
+}
+
+const createPhoneFieldWrapper = (
+	isAddButton,
+	commentInput,
+	name,
+	placeholder
+) => {
+	const wrapper = document.createElement("div");
+	wrapper.className = "phone__wrapper";
+
+	const phoneInput = createInput(name, placeholder);
+
+	wrapper.append(phoneInput);
+	isAddButton && wrapper.append(createAddPhoneBtn(commentInput));
+	return wrapper;
+};
+
 createForm();
