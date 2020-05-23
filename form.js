@@ -29,18 +29,42 @@ const createInput = (name, placeholder) => {
 const createSubmitBtn = (nameInput, phoneInput, commentInput) => {
 	const button = document.createElement("button");
 	button.textContent = "submit";
+
 	button.addEventListener("click", e => {
 		e.preventDefault();
+
+		const additionalPhones = getOptinionalPhones();
 		const person = new Person(
 			nameInput.value,
 			commentInput.value,
-			phoneInput.value
+			phoneInput.value,
+			additionalPhones.extraPhone1?.value,
+			additionalPhones.extraPhone2?.value
 		);
 		if (!nameInput.value || !phoneInput.value || !commentInput.value)
 			return alert("Пожалуйста, заполните все формы");
+
 		person.send();
+
+		resetFields([
+			nameInput,
+			commentInput,
+			phoneInput,
+			additionalPhones.extraPhone1,
+			additionalPhones.extraPhone2,
+		]);
 	});
 	return button;
+};
+
+const getOptinionalPhones = () => {
+	const optionalPhones = document.querySelectorAll(".extra-phone");
+	const extraPhone1 = optionalPhones[0];
+	const extraPhone2 = optionalPhones[1];
+	return {
+		extraPhone1,
+		extraPhone2,
+	};
 };
 
 const createAddPhoneBtn = commentInput => {
@@ -78,16 +102,32 @@ const createPhoneFieldWrapper = (
 	return wrapper;
 };
 
-createForm();
+const resetFields = fiels => {
+	fiels.forEach(field => (field ? (field.value = "") : field));
+};
 
 class Person {
-	constructor(name, comment, phone) {
+	constructor(name, comment, phone, extraPhone1, extraPhone2) {
 		this.name = name;
 		this.comment = comment;
 		this.phone = phone;
+		this.extraPhone1 = extraPhone1;
+		this.extraPhone2 = extraPhone2;
 	}
 	send = () => {
-		alert(`Имя : ${this.name}, комментарий : ${this.comment}, телефон : ${this.phone}. 
-        Данные успешно отправлены!`);
+		alert(this.getMessage());
+	};
+	getMessage = () => {
+		const extraPhone1 = this.extraPhone1
+			? `Дополнительный телефон 1 : ${this.extraPhone1}`
+			: "";
+		const extraPhone2 = this.extraPhone2
+			? `Дополнительный телефон 2 : ${this.extraPhone2}`
+			: "";
+		const message = `Имя : ${this.name}, комментарий : ${this.comment}, телефон : ${this.phone}. ${extraPhone1} ${extraPhone2} 
+Данные успешно отправлены!`;
+		return message;
 	};
 }
+
+createForm();
