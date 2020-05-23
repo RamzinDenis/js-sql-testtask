@@ -38,3 +38,21 @@ const createFlagParts = className => {
 };
 
 makeRussianFedaritionFlag();
+
+const createForm = () => {
+	const form = document.createElement("form");
+	form.classList.add("form");
+	form.append(createInput("name", "ФИО"));
+	form.append(createInput("phone", "Телефон"));
+	form.append(createInput("comments", "Комментарий"));
+	document.body.append(form);
+};
+
+const createInput = (name, placeholder) => {
+	const input = document.createElement("input");
+	input.name = name;
+	input.className = name;
+	input.placeholder = placeholder;
+	return input;
+};
+createForm();
