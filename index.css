@@ -1,0 +1,15 @@
+.footer {
+	background-color: red;
+}
+.body {
+	background-color: blue;
+}
+
+.header {
+	background-color: #fff;
+}
+
+.flag {
+	font-size: 8px;
+	width: min-content;
+}
