@@ -1,14 +1,14 @@
-const createForm = () => {
+const createForm = (input1, input2, input3) => {
 	const form = document.createElement("form");
 	form.classList.add("form");
 
-	const nameInput = createInput("name", "ФИО");
-	const commentInput = createInput("comments", "Комментарий");
+	const nameInput = createInput(input1.name, input1.placeholder);
+	const commentInput = createInput(input2.name, input2.placeholder);
 	const phoneInputWrapper = createPhoneFieldWrapper(
 		true,
 		commentInput,
-		"phone",
-		"Телефон"
+		input3.name,
+		input3.placeholder
 	);
 	const phoneInput = phoneInputWrapper.querySelector(".phone");
 	const submitBtn = createSubmitBtn(nameInput, phoneInput, commentInput);
@@ -130,4 +130,8 @@ class Person {
 	};
 }
 
-createForm();
+createForm(
+	{ name: "name", placeholder: "ФИО" },
+	{ name: "comment", placeholder: "Комментарий" },
+	{ name: "phone", placeholder: "Телефон" }
+);
